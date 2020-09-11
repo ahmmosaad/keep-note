@@ -34,6 +34,16 @@ class ListRepo {
   ),
     NoteModel(
       title: 'test',
+      note: 'this is test, this is test, this is test ,this is test, this is test, this is test',
+      editDate: DateTime.now(),
+    ),
+    NoteModel(
+      title: 'test',
+      note: 'this is test, this is test, this is test ,this is test, this is test, this is test',
+      editDate: DateTime.now(),
+    ),
+    NoteModel(
+      title: 'test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),];

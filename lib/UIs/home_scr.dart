@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:keep/repo/repo.dart';
 
@@ -57,22 +58,24 @@ class Home extends StatelessWidget {
           ),
           SliverPadding(
             padding: EdgeInsets.all(10),
-            sliver: SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 2 / 2.5
-              ),
-              delegate: SliverChildBuilderDelegate(
-                ((context, i) {
-                  return HomeNoteContainer(
-                    title: ListRepo().pins[i].title,
-                    text: ListRepo().pins[i].note,
-                  );
-                }),
-                childCount: ListRepo().pins.length,
-                
+            sliver: SliverToBoxAdapter(
+              child: SizedBox(
+                child: StaggeredGridView.countBuilder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  crossAxisCount: 4,
+                  itemCount: ListRepo().pins.length,
+                  itemBuilder: (BuildContext context, i){
+                    return HomeNoteBox(
+                      title: ListRepo().pins[i].title,
+                      note: ListRepo().pins[i].note,
+                    );
+                  },
+                  staggeredTileBuilder: (int index) =>
+                  new StaggeredTile.fit(2),
+                  mainAxisSpacing: 4.0,
+                  crossAxisSpacing: 4.0,
+                ),
               ),
             ),
           ),
@@ -82,40 +85,42 @@ class Home extends StatelessWidget {
               child: Text('OTHERS', style: TextStyle(fontSize: 12),),
             ),
           ),
-
-         SliverToBoxAdapter(
-           child: StaggeredGridView.builder(
-               scrollDirection: Axis.vertical,
-               shrinkWrap: true,
-               gridDelegate: SliverStaggeredGridDelegateWithFixedCrossAxisCount(
-                 crossAxisCount: 2,
-                 staggeredTileBuilder: (int index) =>
-                 new StaggeredTile.count(2, index.isEven ? 2 : 1),
-               ),
-               itemCount: ListRepo().general.length,
-               itemBuilder: (context , i){
-                 return HomeNoteContainer(
-                   text: ListRepo().general[i].note,
-                   title:  ListRepo().general[i].title,
-                 );
-               }),
-         ),
+          SliverPadding(
+            padding: EdgeInsets.all(10),
+            sliver: SliverToBoxAdapter(
+              child: SizedBox(
+                child: StaggeredGridView.countBuilder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  crossAxisCount: 4,
+                  itemCount: ListRepo().general.length,
+                  itemBuilder: (BuildContext context, i){
+                    return HomeNoteBox(
+                      title: ListRepo().general[i].title,
+                      note: ListRepo().general[i].note,
+                    );
+                  },
+                  staggeredTileBuilder: (int index) =>
+                  new StaggeredTile.fit(2),
+                  mainAxisSpacing: 4.0,
+                  crossAxisSpacing: 4.0,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
+class HomeNoteBox extends StatelessWidget {
 
-
-
-
-
-class HomeNoteContainer extends StatelessWidget {
-  final String text;
   final String title;
-
-  HomeNoteContainer({this.text, this.title});
+  final String note;
+  const HomeNoteBox({
+    this.title, this.note
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +141,7 @@ class HomeNoteContainer extends StatelessWidget {
                 fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(.5)),
             overflow: TextOverflow.ellipsis,),
           Divider(),
-          Expanded(child: Text(text, style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(.7)),),)
+          Text(note, style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(.7),), maxLines: 10,)
         ],
       ),
     );
