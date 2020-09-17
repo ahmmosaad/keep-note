@@ -25,12 +25,17 @@ class _NotePageState extends State<NotePage> {
     );
 
 
+
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(icon: Icon(FontAwesomeIcons.thumbtack), onPressed: () {}),
+          IconButton(icon: Icon(FontAwesomeIcons.thumbtack), onPressed: () {
+            ListRepo().pining(widget.index);
+          }),
           IconButton(icon: Icon(Icons.add_alert), onPressed: () {}),
-          IconButton(icon: Icon(FontAwesomeIcons.archive), onPressed: () {}),
+          IconButton(icon: Icon(FontAwesomeIcons.archive), onPressed: () {
+            ListRepo().addToArchive(widget.index);
+          }),
         ],
       ),
       body: Container(

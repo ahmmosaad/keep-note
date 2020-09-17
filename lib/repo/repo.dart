@@ -48,11 +48,21 @@ class ListRepo {
       editDate: DateTime.now(),
     ),];
   List<NoteModel> deleted = [];
-  List<LabelModel> labels = [];
+  List<LabelModel> labels = [
+    LabelModel(label: 'Book'),
+    LabelModel(label: 'Book'),
+    LabelModel(label: 'Book'),
+  ];
 
   //add new note to general
   void addNewNote(NoteModel noteModel){
     general.add(noteModel);
+  }
+
+  //pin a massage
+  void pining(int index){
+    pins.add(general[index]);
+    general.removeAt(index);
   }
 
   // remove from general to archive

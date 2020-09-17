@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:keep/UIs/drawer.dart';
 import 'package:keep/UIs/note_page.dart';
 import 'package:keep/repo/repo.dart';
 
@@ -14,11 +15,7 @@ class Home extends StatelessWidget {
 
 
     return Scaffold(
-      drawer: Container(
-        height: size.height,
-        width: size.width/1.4,
-        color: Colors.white,
-      ),
+      drawer: DrawerWi(),
       body: CustomScrollView(
         slivers: [
 
