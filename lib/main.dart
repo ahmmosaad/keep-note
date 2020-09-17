@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keep/UIs/home_scr.dart';
-import 'package:keep/UIs/note_page.dart';
+import 'package:keep/UIs/note_page.dart'; 
 
 void main() {
   runApp(MyApp());
