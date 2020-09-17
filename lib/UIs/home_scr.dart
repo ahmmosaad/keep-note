@@ -9,16 +9,10 @@ import 'package:keep/repo/repo.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-
-
-
     return Scaffold(
       drawer: DrawerWi(),
       body: CustomScrollView(
         slivers: [
-
           SliverPadding(
             padding: EdgeInsets.all(10),
             sliver: SliverAppBar(
@@ -46,10 +40,12 @@ class Home extends StatelessWidget {
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
             sliver: SliverToBoxAdapter(
-              child: Text('PINNED', style: TextStyle(fontSize: 12),),
+              child: Text(
+                'PINNED',
+                style: TextStyle(fontSize: 12),
+              ),
             ),
           ),
-
           SliverPadding(
             padding: EdgeInsets.all(10),
             sliver: SliverStaggeredGrid.countBuilder(
@@ -68,10 +64,12 @@ class Home extends StatelessWidget {
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
             sliver: SliverToBoxAdapter(
-              child: Text('OTHERS', style: TextStyle(fontSize: 12),),
+              child: Text(
+                'OTHERS',
+                style: TextStyle(fontSize: 12),
+              ),
             ),
           ),
-
           SliverPadding(
             padding: EdgeInsets.all(10),
             sliver: SliverStaggeredGrid.countBuilder(
@@ -85,10 +83,8 @@ class Home extends StatelessWidget {
               staggeredTileBuilder: (int index) => new StaggeredTile.fit(1),
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-
             ),
           ),
-
         ],
       ),
     );
@@ -107,9 +103,11 @@ class HomeNoteBox extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NotePage(
-          index: i,
-        )));
+            context,
+            MaterialPageRoute(
+                builder: (context) => NotePage(
+                      index: i,
+                    )));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -143,5 +141,3 @@ class HomeNoteBox extends StatelessWidget {
     );
   }
 }
-
-
