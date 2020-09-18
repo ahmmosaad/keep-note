@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:keep/models/note_model.dart';
 import 'package:keep/repo/repo.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,17 @@ class _NotePageState extends State<NotePage> {
     TextEditingController _noteControl = TextEditingController(
         text: widget.index == null ? '' : ListRepo().pins[widget.index].note);
 
+    String title;
+    String note;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.check),
+          onPressed: () {
+            Provider.of<ListRepo>(context, listen: false).addNewNote(NoteModel(
+              title: title,
+              note: note,
+            ));
+          }),
       appBar: AppBar(
         actions: [
           IconButton(
@@ -50,35 +61,44 @@ class _NotePageState extends State<NotePage> {
               }),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _titleControl,
-                  decoration: InputDecoration(
-                      hintText: 'Title', border: InputBorder.none),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height * .8,
+          padding: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextFormField(
+                onChanged: (title) {
+                  setState(() {
+                    title = title;
+                    _titleControl.text = title;
+                  });
+                },
+                controller: _titleControl,
+                decoration: InputDecoration(
+                    hintText: 'Title', border: InputBorder.none),
+              ),
+              Expanded(
+                  child: TextFormField(
+                onChanged: (note) {
+                  setState(() {
+                    note = note;
+                    _noteControl.text = note;
+                  });
+                },
+                controller: _noteControl,
+                style: TextStyle(
+                  fontSize: 16,
                 ),
-                Expanded(
-                    child: TextFormField(
-                  controller: _noteControl,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  expands: true,
-                  minLines: null,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    hintText: 'Note',
-                    border: InputBorder.none,
-                  ),
-                ))
-              ],
-            ),
+                expands: true,
+                minLines: null,
+                maxLines: null,
+                decoration: InputDecoration(
+                  hintText: 'Note',
+                  border: InputBorder.none,
+                ),
+              ))
+            ],
           ),
         ),
       ),
