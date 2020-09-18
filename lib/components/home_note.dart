@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keep/UIs/note_page.dart';
+import 'package:keep/repo/repo.dart';
+import 'package:provider/provider.dart';
 
 class HomeNoteBox extends StatelessWidget {
   final String title;
@@ -12,11 +14,35 @@ class HomeNoteBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        var prov = Provider.of<ListRepo>(context, listen: false);
+        String title;
+        String note;
+        Map map;
+
+        if (id == null) {
+          title = '';
+          note = '';
+        } else if (id.contains('A')) {
+          title = prov.general[id].title;
+          note = prov.general[id].title;
+          map = prov.general;
+        } else if (id.contains('B')) {
+          title = prov.archive[id].title;
+          note = prov.archive[id].title;
+          map = prov.archive;
+        } else if (id.contains('D')) {
+          title = prov.pins[id].title;
+          note = prov.pins[id].title;
+          map = prov.pins;
+        }
+
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => NotePage(
-                      id: id,
+                      map: map,
+                      note: note,
+                      title: title,
                     )));
       },
       child: Container(

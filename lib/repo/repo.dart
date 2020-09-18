@@ -5,12 +5,12 @@ import 'package:keep/models/note_model.dart';
 class ListRepo extends ChangeNotifier {
   Map<String, NoteModel> general = {
     '1A': NoteModel(
-      title: 'test',
-      note: 'this is test',
+      title: 'geneeral 1 test',
+      note: 'this is test general one test tp see of app ',
       editDate: DateTime.now(),
     ),
     '2A': NoteModel(
-      title: 'test',
+      title: '2 test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),

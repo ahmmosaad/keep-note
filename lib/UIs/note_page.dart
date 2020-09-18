@@ -6,11 +6,11 @@ import 'package:keep/repo/repo.dart';
 import 'package:provider/provider.dart';
 
 class NotePage extends StatefulWidget {
-  final String id;
+  final String title;
+  final String note;
+  final Map map;
 
-  const NotePage({
-    this.id,
-  });
+  const NotePage({this.title, this.map, this.note});
 
   @override
   _NotePageState createState() => _NotePageState();
@@ -18,34 +18,13 @@ class NotePage extends StatefulWidget {
 
 class _NotePageState extends State<NotePage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var prov = Provider.of<ListRepo>(context, listen: false);
-    String title;
-    String note;
-    Map map;
-
-    @override
-// ignore: unused_element
-    void didChangeDependencies() {
-      if (widget.id == null) {
-        title = '';
-        note = '';
-      } else if (widget.id.contains('A')) {
-        title = prov.general[widget.id].title;
-        note = prov.general[widget.id].title;
-        map = prov.general;
-      } else if (widget.id.contains('B')) {
-        title = prov.archive[widget.id].title;
-        note = prov.archive[widget.id].title;
-        map = prov.archive;
-      } else if (widget.id.contains('D')) {
-        title = prov.pins[widget.id].title;
-        note = prov.pins[widget.id].title;
-        map = prov.pins;
-      }
-
-      super.didChangeDependencies();
-    }
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
