@@ -26,7 +26,7 @@ class _NotePageState extends State<NotePage> {
         actions: [
           IconButton(
               icon: Icon(
-                Icons.thumbs_up_down,
+                FontAwesomeIcons.thumbtack,
                 size: 20,
               ),
               onPressed: () {

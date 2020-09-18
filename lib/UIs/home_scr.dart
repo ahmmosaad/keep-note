@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
               ),
               actions: [
                 IconButton(
-                    icon: Icon(staggered ? Icons.view_list : Icons.grid_on),
+                    icon: Icon(staggered ? Icons.view_list : Icons.table_chart),
                     onPressed: () {
                       setState(() {
                         staggered = !staggered;
