@@ -3,103 +3,101 @@ import 'package:keep/models/lable_model.dart';
 import 'package:keep/models/note_model.dart';
 
 class ListRepo extends ChangeNotifier {
-  List<NoteModel> general = [
-    NoteModel(
+  Map<String, NoteModel> general = {
+    '1A': NoteModel(
       title: 'test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),
-    NoteModel(
+    '2A': NoteModel(
       title: 'test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),
-  ];
-  List<NoteModel> archive = [
-    NoteModel(
+  };
+  Map<String, NoteModel> archive = {
+    '1B': NoteModel(
       title: 'test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),
-    NoteModel(
+    '2B': NoteModel(
       title: 'test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),
-  ];
-  List<NoteModel> pins = [
-    NoteModel(
+  };
+  Map<String, NoteModel> pins = {
+    '1C': NoteModel(
       title: 'test',
       note:
           'this is test, this is test, this is test ,this is test, this is test, this is test',
       editDate: DateTime.now(),
     ),
-    NoteModel(
+    '2C': NoteModel(
       title: 'test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),
-    NoteModel(
+    '3C': NoteModel(
       title: 'test',
       note:
           'this is test, this is test, this is test ,this is test, this is test, this is test',
       editDate: DateTime.now(),
     ),
-    NoteModel(
+    '4C': NoteModel(
       title: 'test',
       note:
           'this is test, this is test, this is test ,this is test, this is test, this is test',
       editDate: DateTime.now(),
     ),
-    NoteModel(
+    '5C': NoteModel(
       title: 'test',
       note: 'this is test',
       editDate: DateTime.now(),
     ),
-  ];
-  List<NoteModel> deleted = [];
-  List<LabelModel> labels = [
-    LabelModel(label: 'Book'),
-    LabelModel(label: 'Book'),
-    LabelModel(label: 'Book'),
-  ];
+  };
+  Map<String, NoteModel> deleted = {};
+  Map<String, LabelModel> labels = {};
 
   //add new note to general
-  void addNewNote(NoteModel noteModel) {
-    general.add(noteModel);
+  void addNewNote(NoteModel newNoteModel) {
+    general.putIfAbsent('${general.length + 1}A', () {
+      return newNoteModel;
+    });
     notifyListeners();
   }
 
   //pin a massage
-  void pining(int index) {
-    pins.add(general[index]);
-    general.removeAt(index);
+  void pining(String key) {
+    pins.putIfAbsent('${pins.length + 1}C', () {
+      return general[key];
+    });
+    general.remove(key);
     notifyListeners();
   }
 
   // remove from general to archive
-  void addToArchive(int index) {
-    archive.add(general[index]);
-    general.removeAt(index);
+  void addToArchive(String key, Map map) {
+    archive.putIfAbsent('${archive.length + 1}B', () {
+      return map[key];
+    });
+    general.remove(key);
     notifyListeners();
   }
 
   // remove from general to deleteList
-  void deleteFromGeneral(int index) {
-    deleted.add(general[index]);
-    general.removeAt(index);
+  void deleteFromGeneral(String key, Map map) {
+    deleted.putIfAbsent('${general.length + 1}A', () {
+      return map[key];
+    });
+    map.remove(key);
     notifyListeners();
   }
 
   // permenant remove note
-  void permDelete(int index) {
-    deleted.removeAt(index);
-    notifyListeners();
-  }
-
-  //add new label
-  void addLabel(LabelModel label) {
-    labels.add(label);
+  void permDelete(String key) {
+    deleted.remove(key);
     notifyListeners();
   }
 }

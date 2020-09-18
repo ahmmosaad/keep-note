@@ -66,10 +66,10 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.all(10),
             sliver: staggered
                 ? Staggered_grid(
-                    list: Provider.of<ListRepo>(context).pins,
+                    map: Provider.of<ListRepo>(context).pins,
                   )
                 : List_sliver(
-                    list: Provider.of<ListRepo>(context).pins,
+                    map: Provider.of<ListRepo>(context).pins,
                   ),
           ),
           // others
@@ -82,10 +82,10 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.all(10),
             sliver: staggered
                 ? Staggered_grid(
-                    list: Provider.of<ListRepo>(context).general,
+                    map: Provider.of<ListRepo>(context).general,
                   )
                 : List_sliver(
-                    list: Provider.of<ListRepo>(context).general,
+                    map: Provider.of<ListRepo>(context).general,
                   ),
           ),
         ],
@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => NotePage(
-                          index: null,
+                          id: null,
                         )));
           },
           child: Icon(Icons.add),

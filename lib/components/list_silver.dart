@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:keep/models/note_model.dart';
 import 'package:keep/components/home_note.dart';
 
 // ignore: camel_case_types
 class List_sliver extends StatelessWidget {
-  final List<NoteModel> list;
+  final Map map;
 
   const List_sliver({
-    this.list,
+    this.map,
   });
 
   @override
@@ -16,12 +15,12 @@ class List_sliver extends StatelessWidget {
         delegate: SliverChildBuilderDelegate(
       ((context, index) {
         return HomeNoteBox(
-          i: index,
-          note: list[index].note,
-          title: list[index].title,
+          id: map.keys.toList()[index].note,
+          note: map.values.toList()[index].note,
+          title: map.values.toList()[index].title,
         );
       }),
-      childCount: list.length,
+      childCount: map.values.length,
     ));
   }
 }

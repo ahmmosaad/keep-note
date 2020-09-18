@@ -1,13 +1,12 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:keep/UIs/note_page.dart';
 
 class HomeNoteBox extends StatelessWidget {
   final String title;
   final String note;
-  final int i;
+  final String id;
 
-  const HomeNoteBox({this.title, this.note, this.i});
+  const HomeNoteBox({this.title, this.note, this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class HomeNoteBox extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => NotePage(
-                      index: i,
+                      id: id,
                     )));
       },
       child: Container(
