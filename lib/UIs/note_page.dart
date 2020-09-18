@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:keep/repo/repo.dart';
+import 'package:provider/provider.dart';
 
 class NotePage extends StatefulWidget {
+  final int index;
 
- final int index;
-
-  const NotePage({ this.index});
+  const NotePage({this.index});
 
   @override
   _NotePageState createState() => _NotePageState();
@@ -16,26 +16,38 @@ class NotePage extends StatefulWidget {
 class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
-
     TextEditingController _titleControl = TextEditingController(
-      text: ListRepo().pins[widget.index].title
-    );
+        text: widget.index == null ? '' : ListRepo().pins[widget.index].title);
     TextEditingController _noteControl = TextEditingController(
-        text: ListRepo().pins[widget.index].note
-    );
-
-
+        text: widget.index == null ? '' : ListRepo().pins[widget.index].note);
 
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(icon: Icon(FontAwesomeIcons.thumbtack), onPressed: () {
-            ListRepo().pining(widget.index);
-          }),
-          IconButton(icon: Icon(Icons.add_alert), onPressed: () {}),
-          IconButton(icon: Icon(FontAwesomeIcons.archive), onPressed: () {
-            ListRepo().addToArchive(widget.index);
-          }),
+          IconButton(
+              icon: Icon(
+                Icons.thumbs_up_down,
+                size: 20,
+              ),
+              onPressed: () {
+                Provider.of<ListRepo>(context, listen: false)
+                    .pining(widget.index);
+              }),
+          IconButton(
+              icon: Icon(
+                Icons.add_alert,
+                size: 20,
+              ),
+              onPressed: () {}),
+          IconButton(
+              icon: Icon(
+                FontAwesomeIcons.archive,
+                size: 20,
+              ),
+              onPressed: () {
+                Provider.of<ListRepo>(context, listen: false)
+                  ..addToArchive(widget.index);
+              }),
         ],
       ),
       body: Container(
@@ -54,7 +66,9 @@ class _NotePageState extends State<NotePage> {
                 Expanded(
                     child: TextFormField(
                   controller: _noteControl,
-                      style: TextStyle(fontSize: 16,),
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                   expands: true,
                   minLines: null,
                   maxLines: null,
@@ -62,7 +76,6 @@ class _NotePageState extends State<NotePage> {
                     hintText: 'Note',
                     border: InputBorder.none,
                   ),
-
                 ))
               ],
             ),

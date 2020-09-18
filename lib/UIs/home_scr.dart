@@ -1,12 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:keep/UIs/drawer.dart';
 import 'package:keep/UIs/note_page.dart';
+import 'package:keep/components/list_silver.dart';
+import 'package:keep/components/staggred_grid.dart';
+import 'package:keep/components/text_divider.dart';
 import 'package:keep/repo/repo.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool staggered = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,115 +39,78 @@ class Home extends StatelessWidget {
                 ),
               ),
               actions: [
-                IconButton(icon: Icon(Icons.view_list), onPressed: () {}),
-                CircleAvatar(),
+                IconButton(
+                    icon: Icon(staggered ? Icons.view_list : Icons.grid_on),
+                    onPressed: () {
+                      setState(() {
+                        staggered = !staggered;
+                      });
+                    }),
+                CircleAvatar(
+                  child: Icon(Icons.person_outline),
+                ),
                 SizedBox(
                   width: 5,
                 )
               ],
             ),
           ),
+          // pinned
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-            sliver: SliverToBoxAdapter(
-              child: Text(
-                'PINNED',
-                style: TextStyle(fontSize: 12),
-              ),
+            sliver: Text_Divider(
+              section: 'Pinned',
             ),
           ),
           SliverPadding(
             padding: EdgeInsets.all(10),
-            sliver: SliverStaggeredGrid.countBuilder(
-              crossAxisCount: 2,
-              itemCount: ListRepo().pins.length,
-              itemBuilder: (BuildContext context, int index) => HomeNoteBox(
-                title: ListRepo().pins[index].title,
-                note: ListRepo().pins[index].note,
-                i: index,
-              ),
-              staggeredTileBuilder: (int index) => new StaggeredTile.fit(1),
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-            ),
+            sliver: staggered
+                ? Staggered_grid(
+                    list: Provider.of<ListRepo>(context).pins,
+                  )
+                : List_sliver(
+                    list: Provider.of<ListRepo>(context).pins,
+                  ),
           ),
+          // others
           SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-            sliver: SliverToBoxAdapter(
-              child: Text(
-                'OTHERS',
-                style: TextStyle(fontSize: 12),
-              ),
-            ),
-          ),
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+              sliver: Text_Divider(
+                section: 'others',
+              )),
           SliverPadding(
             padding: EdgeInsets.all(10),
-            sliver: SliverStaggeredGrid.countBuilder(
-              crossAxisCount: 2,
-              itemCount: ListRepo().general.length,
-              itemBuilder: (BuildContext context, int index) => HomeNoteBox(
-                title: ListRepo().general[index].title,
-                note: ListRepo().general[index].note,
-                i: index,
-              ),
-              staggeredTileBuilder: (int index) => new StaggeredTile.fit(1),
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-            ),
+            sliver: staggered
+                ? Staggered_grid(
+                    list: Provider.of<ListRepo>(context).general,
+                  )
+                : List_sliver(
+                    list: Provider.of<ListRepo>(context).general,
+                  ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class HomeNoteBox extends StatelessWidget {
-  final String title;
-  final String note;
-  final int i;
-
-  const HomeNoteBox({this.title, this.note, this.i});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => NotePage(
-                      index: i,
-                    )));
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: Colors.grey.withOpacity(.3))),
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              maxLines: 1,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black.withOpacity(.5)),
-              overflow: TextOverflow.ellipsis,
-            ),
-            Divider(),
-            Text(
-              note,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black.withOpacity(.7),
-              ),
-              maxLines: 10,
-            )
-          ],
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NotePage(
+                          index: null,
+                        )));
+          },
+          child: Icon(Icons.add),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
+
+// ignore: camel_case_types
+
+// ignore: camel_case_types
+
+// ignore: camel_case_types
